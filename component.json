@@ -1,0 +1,15 @@
+{
+  "name": "fabbook",
+  "version": "0.0.1",
+  "directory" : "public",
+  "main": ["public/stylesheets/", "public/javascript/", "public/images/"],
+  "dependencies": {
+    "bootstrap-js": "*",
+    "bootstrap.css": "*"
+  },
+    
+  "source":
+  {
+    "bootstrap.css": "public/stylesheets/bootstrap/"
+  }
+}
