@@ -3,4 +3,4 @@ node_modules
 /models/*.js
 /models/*.js
 app.js
-
+npm-debug.log

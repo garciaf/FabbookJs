@@ -1,6 +1,7 @@
 extends layout
 block content
   div.container
-    div.hero-unit
-      h1 #{name}
-      p Welcome to #{name}
+    each article in articles
+      div.hero-unit
+        h1 #{article.title}
+        p  #{article.content}

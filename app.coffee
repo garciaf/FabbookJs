@@ -15,7 +15,7 @@ app.connections = {}
 app.connections[config.database] = new Sequelize config.database, config.user, config.password,
   logging: true
 #Models
-app.models.Article = Article = app.connections['fabbook'].import "#{__dirname}/models/article.js"
+app.models.Article = Article = app.connections[config.database].import "#{__dirname}/models/article.js"
 
 app.configure ->
   app.set "port", process.env.PORT or 3000
@@ -35,8 +35,14 @@ app.configure "development", ->
 
 # Routing rules
 app.get "/", routes.index
+
 app.get "/hello/:name", routes.hello
-app.get "/news", routes.news
+
+app.get "/news", (req, res ) ->
+  app.models.Article.findAll().success (articles) ->
+    res.render "articles",
+      articles: articles,
+      title: "blog"
 
 #Create the server
 http.createServer(app).listen app.get("port"), ->
