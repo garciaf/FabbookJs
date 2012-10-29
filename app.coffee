@@ -3,6 +3,7 @@ Module dependencies.
 ###
 express = require 'express'
 routes = require './routes'
+admin= require './routes/admin'
 http = require 'http'
 path = require 'path'
 app = express()
@@ -31,6 +32,8 @@ app.get "/hello/:name", routes.hello
 app.get "/news/:id/article", routes.show
 
 app.get "/news", routes.news
+
+app.get "/admin/article/new", admin.create
 
 #Create the server
 http.createServer(app).listen app.get("port"), ->
