@@ -5,17 +5,7 @@ express = require 'express'
 routes = require './routes'
 http = require 'http'
 path = require 'path'
-Sequelize = require 'sequelize'
-config = require "./config/#{process.env.NODE_ENV || 'dev'}.json"
-
 app = express()
-app.models = {}
-app.connections = {}
-
-app.connections[config.database] = new Sequelize config.database, config.user, config.password,
-  logging: true
-#Models
-app.models.Article = Article = app.connections[config.database].import "#{__dirname}/models/article.js"
 
 app.configure ->
   app.set "port", process.env.PORT or 3000
@@ -38,11 +28,9 @@ app.get "/", routes.index
 
 app.get "/hello/:name", routes.hello
 
-app.get "/news", (req, res ) ->
-  app.models.Article.findAll().success (articles) ->
-    res.render "articles",
-      articles: articles,
-      title: "blog"
+app.get "/news/:id/article", routes.show
+
+app.get "/news", routes.news
 
 #Create the server
 http.createServer(app).listen app.get("port"), ->
