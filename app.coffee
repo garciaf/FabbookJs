@@ -39,6 +39,10 @@ app.get "/admin/article/list", admin.listArticle
 
 app.post "/admin/article/new", admin.createArticle
 
+app.get "/admin/article/:id/edit", admin.editArticle
+
+app.post "/admin/article/:id/edit", admin.updateArticle
+
 app.get "/admin/article/:id/delete", admin.deleteArticle
 
 #Create the server

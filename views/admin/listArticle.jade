@@ -14,5 +14,7 @@ block content
             td #{article.id}
             td #{article.title}
             td #{article.content}
-            td: a(href="/admin/article/"+article.id+"/delete"): i.icon-trash
+            td 
+              a(href="/admin/article/"+article.id+"/delete"): i.icon-trash
+              a(href="/admin/article/"+article.id+"/edit"): i.icon-edit
     a.btn(href="/admin/article/new") New

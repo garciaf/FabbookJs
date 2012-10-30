@@ -14,6 +14,31 @@ exports.newArticle = (req, res ) ->
     form: form.ArticleForm.toHTML()
     title: 'admin'
 
+exports.editArticle = (req, res ) ->
+  id = parseInt(req.params.id)
+  db.Article.find(id).success (blog) ->
+    formEdit = form.ArticleForm.bind(blog.values)
+    res.render "admin/editArticle",
+      form: formEdit.toHTML()
+      title: "edit "+blog.title
+
+exports.updateArticle = (req, res ) ->
+  form.ArticleForm.handle req,
+    success: (form) ->
+      id = parseInt(req.params.id)
+      db.Article.find(
+        id
+        ).success (article) ->
+          article.updateAttributes(
+            form.data
+          ).success () ->
+            req.method = 'get'
+            res.redirect '/admin/article/list'
+    other: (form) ->
+      res.render "admin/newArticle",
+        form: form.toHTML()
+        title: 'failed'
+        
 exports.deleteArticle = (req, res ) ->
   id = parseInt(req.params.id)
   db.Article.find(id).success (blog) ->
