@@ -1,0 +1,18 @@
+extends ../layout
+block content
+  div.container
+    table.table
+      thead
+        tr
+          th id
+          th title
+          th content
+          th action
+      tbody
+        each article in articles
+          tr
+            td #{article.id}
+            td #{article.title}
+            td #{article.content}
+            td: a(href="/admin/article/"+article.id+"/delete"): i.icon-trash
+    a.btn(href="/admin/article/new") New

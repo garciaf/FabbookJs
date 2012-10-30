@@ -33,7 +33,13 @@ app.get "/news/:id/article", routes.show
 
 app.get "/news", routes.news
 
-app.get "/admin/article/new", admin.create
+app.get "/admin/article/new", admin.newArticle
+
+app.get "/admin/article/list", admin.listArticle
+
+app.post "/admin/article/new", admin.createArticle
+
+app.get "/admin/article/:id/delete", admin.deleteArticle
 
 #Create the server
 http.createServer(app).listen app.get("port"), ->
