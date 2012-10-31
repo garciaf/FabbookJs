@@ -3,11 +3,6 @@
 # 
 db = require("../db")
 
-exports.index = (req, res) ->
-  res.render "index",
-    title: "Fabbook"
-
-
 exports.hello = (req, res) ->
   name = req.params.name
   res.render "hello",

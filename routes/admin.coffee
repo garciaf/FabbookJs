@@ -35,7 +35,7 @@ exports.updateArticle = (req, res ) ->
             req.method = 'get'
             res.redirect '/admin/article/list'
     other: (form) ->
-      res.render "admin/newArticle",
+      res.render "admin/editArticle",
         form: form.toHTML()
         title: 'failed'
         

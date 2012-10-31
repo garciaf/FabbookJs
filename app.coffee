@@ -25,13 +25,11 @@ app.configure "development", ->
   app.use express.errorHandler()
 
 # Routing rules
-app.get "/", routes.index
+app.get "/", routes.news
 
 app.get "/hello/:name", routes.hello
 
 app.get "/news/:id/article", routes.show
-
-app.get "/news", routes.news
 
 app.get "/admin/article/new", admin.newArticle
 

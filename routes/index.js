@@ -4,12 +4,6 @@
 
   db = require("../db");
 
-  exports.index = function(req, res) {
-    return res.render("index", {
-      title: "Fabbook"
-    });
-  };
-
   exports.hello = function(req, res) {
     var name;
     name = req.params.name;

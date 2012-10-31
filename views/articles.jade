@@ -2,7 +2,9 @@ extends layout
 block content
   div.container
     each article in articles
-      div.hero-unit
-        h1 #{article.title}
-        p  #{article.content}
-        a.btn(href="/news/"+article.id+"/article") read More
+      div.row.thought
+        div.span11
+          h1 #{article.title}
+          div.span8
+            p.lead  #{article.content}
+          a.btn(href="/news/"+article.id+"/article") read More
