@@ -106,17 +106,17 @@ app.post "/login", security.authenticate, admin.listArticle
 
 app.get "/logout", security.logout
 
-app.get "/admin/article/new", admin.newArticle
+app.get "/admin/article/new",ensureAuthenticated, admin.newArticle
 
-app.get "/admin/article/list", ensureAuthenticated ,admin.listArticle
+app.get "/admin/article/list", ensureAuthenticated, admin.listArticle
 
-app.post "/admin/article/new", admin.createArticle
+app.post "/admin/article/new", ensureAuthenticated, admin.createArticle
 
-app.get "/admin/article/:id/edit", admin.editArticle
+app.get "/admin/article/:id/edit", ensureAuthenticated, admin.editArticle
 
-app.post "/admin/article/:id/edit", admin.updateArticle
+app.post "/admin/article/:id/edit", ensureAuthenticated, admin.updateArticle
 
-app.get "/admin/article/:id/delete", admin.deleteArticle
+app.get "/admin/article/:id/delete", ensureAuthenticated, admin.deleteArticle
 
 
 #Create the server
