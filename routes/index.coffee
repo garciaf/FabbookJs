@@ -17,7 +17,10 @@ exports.news = (req, res ) ->
 
 exports.show = (req, res ) ->
   id = parseInt(req.params.id)
-  db.Article.find(id).success (blog) ->
-    res.render "article",
-      article: blog
-      title: blog.title
+  db.Article.find(id).success (article) ->
+    if article
+      res.render "article",
+        article: article
+        title: article.title
+    else
+      res.send 404, "Sorry, we cannot find that!"

@@ -1,35 +1,29 @@
-findById = (id, fn) ->
-  idx = id - 1
-  if users[idx]
-    fn null, users[idx]
-  else
-    fn new Error("User " + id + " does not exist")
-findByUsername = (username, fn) ->
-  i = 0
-  len = users.length
-
-  while i < len
-    user = users[i]
-    return fn(null, user)  if user.username is username
-    i++
-  fn null, null
-
-
+db = require("./db")
 passport = require 'passport'
 util = require 'util'
 
+# asynchronous verification, for effect...
+ensureAuthenticated = (req, res, next) ->
+  return next()  if req.isAuthenticated()
+  res.redirect "/login"
+
+findById = (id, fn) ->
+  db.User.find(id).success (user) ->
+    if user
+      fn null, user
+    else
+      fn new Error("User " + id + " does not exist")
+
+findByUsername = (username, fn) ->
+  db.User.find
+  db.User.find(where:
+    username: username
+  ).success (user) ->
+    return fn(null, user)
+
+
 LocalStrategy = require("passport-local").Strategy
-users = [
-  id: 1
-  username: "bob"
-  password: "secret"
-  email: "bob@example.com"
-,
-  id: 2
-  username: "joe"
-  password: "birthday"
-  email: "joe@example.com"
-]
+
 passport.serializeUser (user, done) ->
   done null, user.id
 
@@ -55,3 +49,4 @@ passport.use new LocalStrategy((username, password, done) ->
 )
 
 Passport = exports.Passport = passport
+EnsureAuthenticated = exports.EnsureAuthenticated = ensureAuthenticated

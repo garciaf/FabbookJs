@@ -1,10 +1,3 @@
-
-# asynchronous verification, for effect...
-ensureAuthenticated = (req, res, next) ->
-  return next()  if req.isAuthenticated()
-  res.redirect "/login"
-
-
 ###
 Module dependencies.
 ###
@@ -43,6 +36,9 @@ app.configure "development", ->
   app.use express.errorHandler()
 
 # Routing rules
+# Global pattern admin routes need authentication
+app.all "/admin/*", auth.EnsureAuthenticated
+
 app.get "/", routes.news
 
 app.get "/hello/:name", routes.hello
@@ -55,17 +51,17 @@ app.post "/login", security.authenticate, admin.listArticle
 
 app.get "/logout", security.logout
 
-app.get "/admin/article/new",ensureAuthenticated, admin.newArticle
+app.get "/admin/article/new", admin.newArticle
 
-app.get "/admin/article/list", ensureAuthenticated, admin.listArticle
+app.get "/admin/article/list", admin.listArticle
 
-app.post "/admin/article/new", ensureAuthenticated, admin.createArticle
+app.post "/admin/article/new", admin.createArticle
 
-app.get "/admin/article/:id/edit", ensureAuthenticated, admin.editArticle
+app.get "/admin/article/:id/edit", admin.editArticle
 
-app.post "/admin/article/:id/edit", ensureAuthenticated, admin.updateArticle
+app.post "/admin/article/:id/edit", admin.updateArticle
 
-app.get "/admin/article/:id/delete", ensureAuthenticated, admin.deleteArticle
+app.get "/admin/article/:id/delete", admin.deleteArticle
 
 
 #Create the server

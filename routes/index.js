@@ -25,11 +25,15 @@
   exports.show = function(req, res) {
     var id;
     id = parseInt(req.params.id);
-    return db.Article.find(id).success(function(blog) {
-      return res.render("article", {
-        article: blog,
-        title: blog.title
-      });
+    return db.Article.find(id).success(function(article) {
+      if (article) {
+        return res.render("article", {
+          article: article,
+          title: article.title
+        });
+      } else {
+        return res.send(404, "Sorry, we cannot find that!");
+      }
     });
   };
 

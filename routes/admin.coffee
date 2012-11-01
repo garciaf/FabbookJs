@@ -17,10 +17,13 @@ exports.newArticle = (req, res ) ->
 exports.editArticle = (req, res ) ->
   id = parseInt(req.params.id)
   db.Article.find(id).success (blog) ->
-    formEdit = form.ArticleForm.bind(blog.values)
-    res.render "admin/editArticle",
-      form: formEdit.toHTML()
-      title: "edit "+blog.title
+    if blog
+      formEdit = form.ArticleForm.bind(blog.values)
+      res.render "admin/editArticle",
+        form: formEdit.toHTML()
+        title: "edit "+blog.title
+    else
+      res.send 404, "Sorry, we cannot find that!"
 
 exports.updateArticle = (req, res ) ->
   form.ArticleForm.handle req,
@@ -29,11 +32,14 @@ exports.updateArticle = (req, res ) ->
       db.Article.find(
         id
         ).success (article) ->
-          article.updateAttributes(
-            form.data
-          ).success () ->
-            req.method = 'get'
-            res.redirect '/admin/article/list'
+          if article
+            article.updateAttributes(
+              form.data
+            ).success () ->
+              req.method = 'get'
+              res.redirect '/admin/article/list'
+          else
+            res.send 404, "Sorry, we cannot find that!"
     other: (form) ->
       res.render "admin/editArticle",
         form: form.toHTML()
@@ -42,9 +48,12 @@ exports.updateArticle = (req, res ) ->
 exports.deleteArticle = (req, res ) ->
   id = parseInt(req.params.id)
   db.Article.find(id).success (blog) ->
-    blog.destroy().success ->
-      req.method = 'get'
-      res.redirect '/admin/article/list'
+    if blog
+      blog.destroy().success ->
+        req.method = 'get'
+        res.redirect '/admin/article/list'
+    else
+      res.send 404, "Sorry, we cannot find that!"
  
 exports.createArticle = (req, res ) ->
   form.ArticleForm.handle req,
