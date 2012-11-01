@@ -10,6 +10,9 @@
     "jade": "*",
     "sequelize": "*",
     "async": "*",
-    "forms": "*"
+    "forms": "*",
+    "passport": "*",
+    "connect-flash": "*",
+    "passport-local": "*"
   }
 }
