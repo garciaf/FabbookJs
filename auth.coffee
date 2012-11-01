@@ -1,14 +1,9 @@
-passport = require 'passport'
-util = require 'util'
-LocalStrategy = require("passport-local").Strategy
-
 findById = (id, fn) ->
   idx = id - 1
   if users[idx]
     fn null, users[idx]
   else
     fn new Error("User " + id + " does not exist")
-
 findByUsername = (username, fn) ->
   i = 0
   len = users.length
@@ -19,6 +14,11 @@ findByUsername = (username, fn) ->
     i++
   fn null, null
 
+
+passport = require 'passport'
+util = require 'util'
+
+LocalStrategy = require("passport-local").Strategy
 users = [
   id: 1
   username: "bob"
@@ -30,7 +30,6 @@ users = [
   password: "birthday"
   email: "joe@example.com"
 ]
-
 passport.serializeUser (user, done) ->
   done null, user.id
 
