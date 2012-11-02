@@ -2,6 +2,37 @@
 
 db = require("../db")
 form = require("../form/article")
+userForm = require("../form/registration")
+sechash = require 'sechash'
+uuid = require('node-uuid');
+
+exports.newUser = (req, res) ->
+  res.render "admin/newArticle"
+    form: userForm.RegistrationForm.toHTML()
+    title: 'registration'
+
+createPassword = (user) ->
+  opts =
+    algorithm: "sha512"
+    salt: user.salt
+    includeMeta: false
+  return sechash.strongHashSync user.password, opts
+
+exports.createUser = (req, res ) ->
+  userForm.RegistrationForm.handle req,
+    success: (form) ->
+      user= form.data
+      user.salt = uuid.v1()
+      user.password = createPassword user
+      db.User.create(
+        user
+      ).success (article) ->
+          req.method = 'get'
+          res.redirect '/admin/article/list'
+    other: (form) ->
+      res.render "admin/newArticle",
+        form: form.toHTML()
+        title: 'failed'
 
 exports.listArticle = (req, res ) ->
   db.Article.findAll().success (articles) ->

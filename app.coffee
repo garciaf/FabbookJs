@@ -53,6 +53,10 @@ app.get "/logout", security.logout
 
 app.get "/admin/article/new", admin.newArticle
 
+app.get "/user/registration", admin.newUser
+
+app.post "/user/registration", admin.createUser
+
 app.get "/admin/article/list", admin.listArticle
 
 app.post "/admin/article/new", admin.createArticle
