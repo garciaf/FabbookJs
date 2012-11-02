@@ -15,6 +15,10 @@ define_model = (sequelize, DataTypes) ->
       type: DataTypes.STRING
       allowNull: false
 
+    salt:
+      type: DataTypes.STRING
+      allowNull: false
+
     email:
       type: DataTypes.STRING
       allowNull: true

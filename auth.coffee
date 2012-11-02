@@ -1,6 +1,7 @@
 db = require("./db")
 passport = require 'passport'
 util = require 'util'
+sechash = require 'sechash'
 
 # asynchronous verification, for effect...
 ensureAuthenticated = (req, res, next) ->
@@ -21,6 +22,12 @@ findByUsername = (username, fn) ->
   ).success (user) ->
     return fn(null, user)
 
+checkPassword = (user, password) ->
+  opts =
+    algorithm: "sha512"
+    salt: user.salt
+    includeMeta: false
+  return sechash.testHashSync password, user.password, opts
 
 LocalStrategy = require("passport-local").Strategy
 
@@ -41,7 +48,8 @@ passport.use new LocalStrategy((username, password, done) ->
         return done(null, false,
           message: "Unknown user " + username
         )
-      unless user.password is password
+#      unless user.password is password
+      unless checkPassword user, password
         return done(null, false,
           message: "Invalid password"
         )

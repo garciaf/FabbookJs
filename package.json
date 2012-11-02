@@ -13,6 +13,7 @@
     "forms": "*",
     "passport": "*",
     "connect-flash": "*",
-    "passport-local": "*"
+    "passport-local": "*",
+    "sechash": "*"
   }
 }
